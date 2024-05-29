@@ -6,13 +6,19 @@ import androidx.activity.enableEdgeToEdge
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.view.ViewCompat
 import androidx.core.view.WindowInsetsCompat
+import androidx.recyclerview.widget.LinearLayoutManager
 import com.example.mycalculator.databinding.ActivityMainBinding
-import net.objecthunter.exp4j.ExpressionBuilder
+import com.example.mycalculator.model.CalculatorViewModel
+import com.example.mycalculator.model.HistoryAdapter
+import androidx.activity.viewModels
+import androidx.lifecycle.Observer
 
 class MainActivity : AppCompatActivity() {
 
     private lateinit var binding: ActivityMainBinding
-    private var displayText: String = ""
+    private val viewModel: CalculatorViewModel by viewModels()
+    private lateinit var historyAdapter: HistoryAdapter
+
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -25,8 +31,14 @@ class MainActivity : AppCompatActivity() {
             insets
         }
         setupListeners()
+        setupRecyclerView()
+        setupObservers()
     }
-
+    private fun setupRecyclerView() {
+        historyAdapter = HistoryAdapter(viewModel.historyList.value ?: mutableListOf())
+        binding.recyclerViewHistory.layoutManager = LinearLayoutManager(this)
+        binding.recyclerViewHistory.adapter = historyAdapter
+    }
     private fun setupListeners() {
         with(binding) {
             arrayOf(
@@ -35,45 +47,21 @@ class MainActivity : AppCompatActivity() {
                 txtAdd, txtSubtract, txtMutiply, txtDivide,
                 txtOpenBracket, txtClosedBracket, txtPercentage, txtEqual, txtClear
             ).forEach { textView ->
-                textView.setOnClickListener { onButtonClick(textView) }
+                textView.setOnClickListener { viewModel.onButtonClick((textView as TextView).text.toString()) }
             }
-            imgBackspace.setOnClickListener { onBackspaceClick() }
+            imgBackspace.setOnClickListener { viewModel.onBackspaceClick() }
         }
     }
 
-    private fun onButtonClick(view: TextView) {
-        when (view.id) {
-            R.id.txtClear -> clearDisplay()
-            R.id.txtEqual -> calculateResult()
-            else -> {
-                displayText += view.text
-                binding.txtDisplay.text = displayText
-            }
-        }
-    }
-
-    private fun onBackspaceClick() {
-        if (displayText.isNotEmpty()) {
-            displayText = displayText.dropLast(1)
-            binding.txtDisplay.text = displayText
-        }
-    }
-
-    private fun clearDisplay() {
-        displayText = ""
-        binding.txtDisplay.text = displayText
-        binding.txtResults.text = ""
-    }
-
-    private fun calculateResult() {
-        // Here you would implement the logic to calculate the result
-try {
-    val expression = ExpressionBuilder(displayText).build()
-    val result = expression.evaluate()
-    binding.txtResults.text = result.toString()
-}catch (e: Exception){
-    binding.txtResults.text ="Error"
-}
-
+    private fun setupObservers() {
+        viewModel.displayText.observe(this, Observer {
+            binding.txtDisplay.text = it
+        })
+        viewModel.resultText.observe(this, Observer {
+            binding.txtResults.text = it
+        })
+        viewModel.historyList.observe(this, Observer {
+            historyAdapter.updateHistory(it)
+        })
     }
 }

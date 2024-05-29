@@ -1,4 +1,3 @@
-import com.sun.tools.javac.Main.compile
 
 plugins {
     alias(libs.plugins.androidApplication)
@@ -50,5 +49,8 @@ dependencies {
     androidTestImplementation(libs.androidx.junit)
     androidTestImplementation(libs.androidx.espresso.core)
     implementation ("net.objecthunter:exp4j:0.4.8")
+    implementation ("androidx.lifecycle:lifecycle-extensions:2.2.0")
+    implementation ("androidx.lifecycle:lifecycle-viewmodel-ktx:2.8.0")
+    implementation ("androidx.activity:activity-ktx:1.9.0")
 
 }
