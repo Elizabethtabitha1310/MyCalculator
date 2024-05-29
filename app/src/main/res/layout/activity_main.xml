@@ -1,0 +1,169 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/main"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical"
+    android:background="@android:color/black"
+    tools:context=".MainActivity">
+
+    <TextView
+        android:layout_width="match_parent"
+        android:layout_height="100dp"
+        android:id="@+id/txtDisplay"
+        android:gravity="end"
+        android:textColor="@color/Numberbtn"
+        android:textSize="40sp"
+        android:singleLine="true"/>
+    <TextView
+        android:layout_width="match_parent"
+        android:layout_height="100dp"
+        android:id="@+id/txtResults"
+        android:gravity="end"
+        android:textColor="@color/Numberbtn"
+        android:textSize="40sp"
+        android:singleLine="true"/>
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:orientation="vertical">
+<LinearLayout
+    android:layout_width="match_parent"
+    android:layout_height="0dp"
+    android:layout_weight="1"
+    android:orientation="horizontal">
+
+    <TextView
+        android:id="@+id/txtClear"
+        style="@style/Actionbtn"
+        android:text="C"
+        android:textColor="#7B1FA2" />
+
+    <TextView
+        android:id="@+id/txtOpenBracket"
+        style="@style/Actionbtn"
+        android:textColor="#7B1FA2"
+        android:text="("/>
+    <TextView
+        android:id="@+id/txtClosedBracket"
+        style="@style/Actionbtn"
+        android:textColor="#7B1FA2"
+        android:text=")"/>
+    <TextView
+        android:id="@+id/txtDivide"
+        style="@style/Actionbtn"
+        android:textColor="#7B1FA2"
+        android:text="/"/>
+</LinearLayout>
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        android:layout_weight="1"
+        android:orientation="horizontal">
+
+        <TextView
+            android:id="@+id/txtSeven"
+            style="@style/Numberbtn"
+            android:text="7"/>
+
+        <TextView
+            android:id="@+id/txtEight"
+            style="@style/Numberbtn"
+            android:text="8"/>
+        <TextView
+            android:id="@+id/txtNine"
+            style="@style/Numberbtn"
+            android:text="9"/>
+        <TextView
+            android:id="@+id/txtMutiply"
+            style="@style/Actionbtn"
+            android:textColor="#7B1FA2"
+            android:text="*"/>
+    </LinearLayout>
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="0dp"
+            android:layout_weight="1"
+            android:orientation="horizontal">
+
+            <TextView
+                android:id="@+id/txtFour"
+                style="@style/Numberbtn"
+                android:text="4"/>
+
+            <TextView
+                android:id="@+id/txtFive"
+                style="@style/Numberbtn"
+                android:text="5"/>
+            <TextView
+                android:id="@+id/txtSix"
+                style="@style/Numberbtn"
+                android:text="6"/>
+
+            <TextView
+                android:id="@+id/txtAdd"
+                style="@style/Actionbtn"
+                android:text="+"
+                android:textColor="#7B1FA2" />
+        </LinearLayout>
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="0dp"
+            android:layout_weight="1"
+            android:orientation="horizontal">
+
+            <TextView
+                android:id="@+id/txtOne"
+                style="@style/Numberbtn"
+                android:text="1"/>
+
+            <TextView
+                android:id="@+id/txtTwo"
+                style="@style/Numberbtn"
+                android:text="2"/>
+            <TextView
+                android:id="@+id/txtThree"
+                style="@style/Numberbtn"
+                android:text="3"/>
+            <TextView
+                android:id="@+id/txtSubtract"
+                style="@style/Actionbtn"
+                android:textColor="#7B1FA2"
+                android:text="-"/>
+        </LinearLayout>
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="0dp"
+            android:layout_weight="1"
+            android:orientation="horizontal">
+
+            <TextView
+                android:id="@+id/txtPercentage"
+                style="@style/Numberbtn"
+                android:text="%"/>
+
+            <TextView
+                android:id="@+id/txtZero"
+                style="@style/Numberbtn"
+                android:text="0"/>
+            <ImageView
+                android:id="@+id/imgBackspace"
+                style="@style/Numberbtn"
+                android:src="@drawable/backspace"
+                android:scaleType="center"
+                android:contentDescription="TODO" />
+            <TextView
+                android:id="@+id/txtEqual"
+                style="@style/Actionbtn"
+                android:textColor="#7B1FA2"
+                android:text="="/>
+        </LinearLayout>
+
+</LinearLayout>
+
+</LinearLayout>
