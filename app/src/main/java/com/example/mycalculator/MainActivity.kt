@@ -1,6 +1,8 @@
 package com.example.mycalculator
 
 import android.os.Bundle
+import android.util.Log
+import android.view.View
 import android.widget.TextView
 import androidx.activity.enableEdgeToEdge
 import androidx.appcompat.app.AppCompatActivity
@@ -12,6 +14,7 @@ import com.example.mycalculator.model.CalculatorViewModel
 import com.example.mycalculator.model.HistoryAdapter
 import androidx.activity.viewModels
 import androidx.lifecycle.Observer
+
 
 class MainActivity : AppCompatActivity() {
 
@@ -25,7 +28,7 @@ class MainActivity : AppCompatActivity() {
         enableEdgeToEdge()
         binding = ActivityMainBinding.inflate(layoutInflater)
         setContentView(binding.root)
-        ViewCompat.setOnApplyWindowInsetsListener(findViewById(R.id.main)) { v, insets ->
+        ViewCompat.setOnApplyWindowInsetsListener(findViewById(R.id.scrollView)) { v, insets ->
             val systemBars = insets.getInsets(WindowInsetsCompat.Type.systemBars())
             v.setPadding(systemBars.left, systemBars.top, systemBars.right, systemBars.bottom)
             insets
@@ -34,22 +37,44 @@ class MainActivity : AppCompatActivity() {
         setupRecyclerView()
         setupObservers()
     }
+
     private fun setupRecyclerView() {
         historyAdapter = HistoryAdapter(viewModel.historyList.value ?: mutableListOf())
         binding.recyclerViewHistory.layoutManager = LinearLayoutManager(this)
         binding.recyclerViewHistory.adapter = historyAdapter
     }
+
     private fun setupListeners() {
         with(binding) {
             arrayOf(
                 txtZero, txtOne, txtTwo, txtThree, txtFour,
                 txtFive, txtSix, txtSeven, txtEight, txtNine,
                 txtAdd, txtSubtract, txtMutiply, txtDivide,
-                txtOpenBracket, txtClosedBracket, txtPercentage, txtEqual, txtClear
+                txtOpenBracket, txtClosedBracket, txtPercentage, txtEqual,
+                txtClear, txtSin, txtCos, txtLn, txtLog, txtE, txtTan, txtExp, txtPi
             ).forEach { textView ->
                 textView.setOnClickListener { viewModel.onButtonClick((textView as TextView).text.toString()) }
             }
             imgBackspace.setOnClickListener { viewModel.onBackspaceClick() }
+            imgAutoRotate.setOnClickListener {
+                if (scientificButtonsLayout.visibility == View.GONE) {
+                    scientificButtonsLayout.visibility = View.VISIBLE
+                } else {
+                    scientificButtonsLayout.visibility = View.GONE
+                }
+            }
+            imgCurrencyConverter.setOnClickListener {
+                Log.d("MainActivity", "Currency Converter Clicked")
+                val amountToConvert = viewModel.displayText.value?.toDoubleOrNull()
+                if (amountToConvert != null) {
+                    Log.d("MainActivity", "Amount to Convert: $amountToConvert")
+                    val currencyFrom = "KES"
+                    val currencyTo = "USD"
+                    viewModel.performCurrencyConversion(amountToConvert, currencyFrom, currencyTo)
+                } else {
+                    Log.d("MainActivity", "Invalid Amount")
+                }
+            }
         }
     }
 
@@ -62,6 +87,7 @@ class MainActivity : AppCompatActivity() {
         })
         viewModel.historyList.observe(this, Observer {
             historyAdapter.updateHistory(it)
+            binding.recyclerViewHistory.visibility = if (it.isEmpty()) View.GONE else View.VISIBLE
         })
     }
 }
